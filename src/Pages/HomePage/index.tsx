@@ -1,17 +1,17 @@
-import { Button, Typography } from "@material-ui/core";
-import * as React from "react";
-import { useSelector } from "react-redux";
-import { useMetamaskConnection } from "../../Components/Ethereum";
-import { getWalletAddress } from "../../Stores/UserData/selector";
-import { HomePageWrapper } from "./index.styles";
+import * as React from 'react'
+import { Redirect, Route, Switch } from 'react-router'
+import { WalletConnectPopup } from '../../Components/WalletConnectPopup'
+import { HomePageLayout } from './HomePageLayout'
+import { HOME_PAGE_LAYOUT_ROUTE, WALLET_CONNECT_POPUP } from './routes'
 
 export const HomePage = () => {
-  const { connectWallet } = useMetamaskConnection();
-  const walletAddress = useSelector(getWalletAddress);
   return (
-    <HomePageWrapper>
-      <Typography>{`Wallet Address: ${walletAddress}`}</Typography>
-      <Button onClick={() => connectWallet()}>Open Metamask</Button>
-    </HomePageWrapper>
-  );
-};
+    <>
+      <Switch>
+        <Route path={HOME_PAGE_LAYOUT_ROUTE} component={HomePageLayout} />
+        <Redirect to={HOME_PAGE_LAYOUT_ROUTE} />
+      </Switch>
+      <Route path={WALLET_CONNECT_POPUP} component={WalletConnectPopup} />
+    </>
+  )
+}
